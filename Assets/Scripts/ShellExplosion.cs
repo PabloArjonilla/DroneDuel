@@ -10,10 +10,16 @@ public class ShellExplosion : MonoBehaviour
     public float m_MaxLifeTime = 10f;
     public float m_ExplosionRadius = 5f;
 
-
+    private Rigidbody rb;
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         Destroy(gameObject, m_MaxLifeTime);
+    }
+
+    void Update()
+    {
+        transform.forward = rb.velocity;
     }
 
 
