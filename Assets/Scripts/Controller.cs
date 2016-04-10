@@ -15,7 +15,8 @@ public class Controller : MonoBehaviour
     private float pitch;
     private float roll;
 
-
+    private float targetVolume;
+    public float dVolumeChangeSpeed = 0.1f;
 
     private AudioSource audio;
     private Rigidbody rb;
@@ -72,11 +73,11 @@ public class Controller : MonoBehaviour
 
         //Audio
 
-        float baseVolume = throttle * throttle * 0.25f;
-        float volumeExtra = (Mathf.Abs(yaw) + Mathf.Abs(roll) + Mathf.Abs(pitch)) *  0.10f;
-
-        audio.volume = baseVolume + volumeExtra;
-        audio.pitch = audio.volume + 0.70f;
+        float baseVolume = throttle * throttle * 0.5f;
+        float volumeExtra = (Mathf.Abs(yaw) + Mathf.Abs(roll) + Mathf.Abs(pitch)) * 0.25f;
+        targetVolume = baseVolume + volumeExtra;
+        audio.volume = Mathf.Lerp(audio.volume, targetVolume, Time.deltaTime * 10);
+        audio.pitch = audio.volume + 0.65f;
     }
 
     public void stopRotation()
