@@ -5,23 +5,20 @@ using UnityEngine.SceneManagement;
 public class Controller : MonoBehaviour
 {
 
-    public float power = 1;
-
-    public float yawTorque = 1;
-    public float pitchRollTorque = 1;
+    public float power = 4000;
+    public float yawTorque = 0.01f;
+    public float pitchRollTorque = 0.01f;
     public float stability = 0.95f;
 
-    public float throttle;
-    public float yaw;
-    public float pitch;
-    public float roll;
-    public float yAngularVelocity;
+    private float throttle;
+    private float yaw;
+    private float pitch;
+    private float roll;
 
 
-    private float offset = 0.0465975f;
 
+    private AudioSource audio;
     private Rigidbody rb;
-
     public BoxCollider Rotor1BC;
     public BoxCollider Rotor2BC;
     public BoxCollider Rotor3BC;
@@ -33,6 +30,7 @@ public class Controller : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -71,6 +69,14 @@ public class Controller : MonoBehaviour
         rb.AddForceAtPosition(transform.up * Rotor4Throttle * pitchRollTorque * power * Time.deltaTime, Rotor4Center);
 
         stopRotation();
+
+        //Audio
+
+        float baseVolume = throttle * throttle * 0.25f;
+        float volumeExtra = (Mathf.Abs(yaw) + Mathf.Abs(roll) + Mathf.Abs(pitch)) *  0.10f;
+
+        audio.volume = baseVolume + volumeExtra;
+        audio.pitch = audio.volume + 0.70f;
     }
 
     public void stopRotation()
@@ -85,7 +91,7 @@ public class Controller : MonoBehaviour
         float stabilization = stability * (1 + Time.deltaTime);
 
         float xAngularVelocity = rb.angularVelocity.x;
-        yAngularVelocity = rb.angularVelocity.y;
+        float yAngularVelocity = rb.angularVelocity.y;
         float zAngularVelocity = rb.angularVelocity.z;
 
 
