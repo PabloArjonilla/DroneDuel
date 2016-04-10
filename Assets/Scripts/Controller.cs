@@ -78,8 +78,8 @@ public class Controller : MonoBehaviour
 
         //Audio
 
-        float baseVolume = throttle * throttle * 0.5f;
-        float volumeExtra = (Mathf.Abs(yaw) + Mathf.Abs(roll) + Mathf.Abs(pitch)) * 0.25f;
+        float baseVolume = throttle * throttle * 0.2f;
+        float volumeExtra = (Mathf.Abs(yaw) + Mathf.Abs(roll) + Mathf.Abs(pitch)) * 0.15f;
         targetVolume = baseVolume + volumeExtra;
         audio.volume = Mathf.Lerp(audio.volume, targetVolume, Time.deltaTime * 10);
         audio.pitch = audio.volume + 0.65f;
