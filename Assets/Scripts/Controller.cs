@@ -25,6 +25,11 @@ public class Controller : MonoBehaviour
     public BoxCollider Rotor3BC;
     public BoxCollider Rotor4BC;
 
+    public GameObject Blade1;
+    public GameObject Blade2;
+    public GameObject Blade3;
+    public GameObject Blade4;
+
     public Shader cellShading;
 
     // Use this for initialization
@@ -78,6 +83,18 @@ public class Controller : MonoBehaviour
         targetVolume = baseVolume + volumeExtra;
         audio.volume = Mathf.Lerp(audio.volume, targetVolume, Time.deltaTime * 10);
         audio.pitch = audio.volume + 0.65f;
+
+        int direction = 1;
+            if (throttle <0)
+        {
+            direction = -1;
+        }
+
+        //Blade rotation
+        Blade1.transform.RotateAround(Blade1.transform.position, Blade1.transform.up, audio.volume * 10000 * Time.deltaTime * direction);
+        Blade2.transform.RotateAround(Blade2.transform.position, Blade2.transform.up, audio.volume * 10000 * Time.deltaTime * direction);
+        Blade3.transform.RotateAround(Blade3.transform.position, Blade3.transform.up, audio.volume * -10000 * Time.deltaTime * direction);
+        Blade4.transform.RotateAround(Blade4.transform.position, Blade4.transform.up, audio.volume * -10000 * Time.deltaTime * direction);
     }
 
     public void stopRotation()
