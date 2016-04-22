@@ -16,9 +16,8 @@ public class Controller : MonoBehaviour
     private float roll;
 
     private float targetVolume;
-    public float dVolumeChangeSpeed = 0.1f;
 
-    private AudioSource audio;
+    private new AudioSource audio;
     private Rigidbody rb;
     public BoxCollider Rotor1BC;
     public BoxCollider Rotor2BC;
@@ -31,8 +30,7 @@ public class Controller : MonoBehaviour
     public GameObject Blade4;
 
     public Shader cellShading;
-
-    // Use this for initialization
+    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -48,6 +46,7 @@ public class Controller : MonoBehaviour
         }
 
         throttle = Input.GetAxis("Throttle") * -1;
+
         yaw = Input.GetAxis("Yaw");
         roll = Input.GetAxis("Roll");
         pitch = Input.GetAxis("Pitch");
@@ -77,7 +76,6 @@ public class Controller : MonoBehaviour
         stopRotation();
 
         //Audio
-
         float baseVolume = throttle * throttle * 0.25f;
         float volumeExtra = (Mathf.Abs(yaw) + Mathf.Abs(roll) + Mathf.Abs(pitch)) * 0.15f;
         targetVolume = baseVolume + volumeExtra;
@@ -91,21 +89,14 @@ public class Controller : MonoBehaviour
         }
 
         //Blade rotation
-        Blade1.transform.RotateAround(Blade1.transform.position, Blade1.transform.up, audio.volume * 10000 * Time.deltaTime * direction);
-        Blade2.transform.RotateAround(Blade2.transform.position, Blade2.transform.up, audio.volume * 10000 * Time.deltaTime * direction);
-        Blade3.transform.RotateAround(Blade3.transform.position, Blade3.transform.up, audio.volume * -10000 * Time.deltaTime * direction);
-        Blade4.transform.RotateAround(Blade4.transform.position, Blade4.transform.up, audio.volume * -10000 * Time.deltaTime * direction);
+        Blade1.transform.RotateAround(Blade1.transform.position, Blade1.transform.up, audio.volume * 20000 * Time.deltaTime * direction);
+        Blade2.transform.RotateAround(Blade2.transform.position, Blade2.transform.up, audio.volume * 20000 * Time.deltaTime * direction);
+        Blade3.transform.RotateAround(Blade3.transform.position, Blade3.transform.up, audio.volume * -20000 * Time.deltaTime * direction);
+        Blade4.transform.RotateAround(Blade4.transform.position, Blade4.transform.up, audio.volume * -20000 * Time.deltaTime * direction);
     }
 
     public void stopRotation()
     {
-        /*
-        float yawAngularVelocity = rb.angularVelocity.y;
-        float pitchAngularVelocity = rb.angularVelocity.x;
-        float rollAngularVelocity = rb.angularVelocity.z;       
-        rb.angularVelocity = new Vector3(roll, yaw, pitch);
-        */
-
         float stabilization = stability * (1 + Time.deltaTime);
 
         float xAngularVelocity = rb.angularVelocity.x;
@@ -142,9 +133,7 @@ public class Controller : MonoBehaviour
             }
         }
 
-
         rb.angularVelocity = new Vector3(xAngularVelocity, yAngularVelocity, zAngularVelocity);
-
     }
 }
 
