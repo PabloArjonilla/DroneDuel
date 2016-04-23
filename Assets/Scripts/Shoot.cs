@@ -6,11 +6,14 @@ public class Shoot : MonoBehaviour
     public Rigidbody droneRB;
     public Rigidbody m_Shell;
     public Transform m_FireTransform;
-    public Transform m_BombTransform;
     public AudioSource m_ShootingAudio;
     public AudioClip m_ChargingClip;
     public AudioClip m_FireClip;
     public AudioClip m_BombClip;
+    public Slider slider;
+    public Image sliderFill;
+    public Color colorCool = Color.green;       // The color the health bar will be when on full health.
+    public Color colorHeat = Color.red;
     public float firePower = 15f;
 
     public int m_PlayerNumber;
@@ -18,6 +21,7 @@ public class Shoot : MonoBehaviour
     public float heatDissipation;
     public float spread;
     public float heat;
+    public float heatSliderValue;
 
     private string fireButton1;
     private string fireButton2;
@@ -40,6 +44,8 @@ public class Shoot : MonoBehaviour
             heat = 0;
         }
 
+        slider.value = heat / maxHeat;
+        sliderFill.color = Color.Lerp(colorCool, colorHeat, heat / maxHeat);
 
         if (Input.GetButtonDown(fireButton1) || Input.GetButtonDown(fireButton2))
         {
